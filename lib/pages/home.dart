@@ -1,20 +1,19 @@
 import 'package:com/pages/loading.dart';
-import 'package:com/pages/switch-remote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_sms/flutter_sms.dart';
+
 import '../contact.dart';
 
-class Home extends StatefulWidget{
+class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
   final String title;
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   List<String> _colors = <String>['', 'on', 'off'];
   String _color = '';
@@ -22,9 +21,9 @@ class _HomeState extends State<Home> {
   Contact newContact = new Contact();
   List<String> phoneList = [];
 
-
   void _sendSMS() async {
-    String _result = await FlutterSms.sendSMS(message: newContact.cmd, recipients: phoneList);
+    String _result = await FlutterSms.sendSMS(
+        message: newContact.cmd, recipients: phoneList);
     setState(() => _message = _result);
     print(_result);
     print(_message);
@@ -42,19 +41,19 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+      appBar: AppBar(
+        title: Text('title'),
       ),
-      body: new SafeArea(
+      body: SafeArea(
           top: false,
           bottom: false,
-          child: new Form(
+          child: Form(
               key: _formKey,
               autovalidate: true,
               child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
-                  new TextFormField(
+                  TextFormField(
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.location_city),
                       hintText: 'Enter the location',
@@ -65,8 +64,7 @@ class _HomeState extends State<Home> {
                         return 'Please enter your location';
                       }
                     },
-                    onSaved: (val) => setState(() =>newContact.city = val),
-
+                    onSaved: (val) => setState(() => newContact.city = val),
                   ),
 //                  new TextFormField(
 //                    decoration: const InputDecoration(
@@ -91,7 +89,8 @@ class _HomeState extends State<Home> {
                         return 'Please enter the phone number';
                       }
                     },
-                    onSaved: (val) => setState(() =>phoneList.add(val.toString())),
+                    onSaved: (val) =>
+                        setState(() => phoneList.add(val.toString())),
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
@@ -105,7 +104,7 @@ class _HomeState extends State<Home> {
                         return 'Please enter the command text';
                       }
                     },
-                    onSaved: (val) => setState(() =>newContact.cmd = val),
+                    onSaved: (val) => setState(() => newContact.cmd = val),
                   ),
                   new FormField(
                     builder: (FormFieldState state) {
@@ -140,9 +139,9 @@ class _HomeState extends State<Home> {
                   new Container(
                       padding: const EdgeInsets.only(left: 40.0, top: 20.0),
                       child: new RaisedButton(
-                        onPressed: (){
+                        onPressed: () {
                           final form = _formKey.currentState;
-                          if(form.validate()){
+                          if (form.validate()) {
                             form.save();
                             _sendSMS();
                           }

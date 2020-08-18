@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'pages/home.dart';
+
 import 'pages/loading.dart';
-import 'pages/location.dart';
 
 void main() {
+  runApp(App());
+}
 
-  runApp(MaterialApp(
-    initialRoute: '/home',
-    routes: {
-      '/': (context) => Loading(),
-      '/home': (context) => Home(title: 'Wifi Controller'),
-      '/location': (context) => Location(),
-    },
-//    title: 'Flutter Form Demo',
-//    theme: new ThemeData(
-//      primarySwatch: Colors.blue,
-//    ),
-//    home: new Home(title: 'Flutter Form Demo'),
-  ),
-  );
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Smart Plug',
+      theme: ThemeData(brightness: Brightness.light),
+      home: Loading(),
+    );
+  }
 }
