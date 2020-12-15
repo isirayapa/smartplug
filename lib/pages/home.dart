@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:com/pages/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sms/flutter_sms.dart';
+import 'package:http/http.dart' as http;
 
 import '../contact.dart';
 
@@ -22,6 +25,29 @@ class _HomeState extends State<Home> {
   List<String> phoneList = [];
 
   void _sendSMS() async {
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = {
+      "messages": [
+        {
+          "clientRef": "0934345",
+          "number": "94777330943,94778310041,94710745893",
+          "mask": "test",
+          "text": "This is a test message from ozonelabs.lk",
+          "campaignName":"xmasPromo2"
+        }
+      ]
+    } as String;
+    http.post(
+        "https://richcommunication.dialog.lk/api/sms/send",
+        headers: jsonEncode(<String, String>{
+          'USER': "Pravin@ede",
+          'DIGEST': '10a8d9b88435c6d3ad6207913af53422'
+        }),
+    ).then((response){
+      print( response.statusCode);
+      print( response.body);
+// Perform the required operation(s)
+    });
     String _result = await FlutterSms.sendSMS(
         message: newContact.cmd, recipients: phoneList);
     setState(() => _message = _result);
